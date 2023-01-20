@@ -18,7 +18,7 @@ const Profile = () => (
   <View style={styles.container}>
     <PanoramaView
       style={styles.viewer}
-      dimensions={{ height: 1450, width: Dimensions.get("window").width }}
+      dimensions={{ height: 450, width: Dimensions.get("window").width }}
       inputType="mono"
       imageUrl="https://www.airpano.com/files/taj_mahal_03.jpg"
     />
