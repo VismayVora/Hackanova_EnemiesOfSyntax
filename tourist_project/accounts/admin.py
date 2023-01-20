@@ -5,8 +5,8 @@ from .models import *
 # Register your models here.
 class UserAdmin(UserAdmin):
     model = User
-    list_display = ['email', 'phone_no','name','is_staff','is_active','is_user','is_tour_operator']
-    list_filter = ['email', 'phone_no','name','is_staff','is_active','is_user','is_tour_operator']
+    list_display = ['email', 'phone_no','name','is_staff','is_active','is_user','is_tour_operator','website_link']
+    list_filter = ['email', 'phone_no','name','is_staff','is_active','is_user','is_tour_operator','website_link']
 
     fieldsets = (
         (None, {'fields': ('email', 'password')}),

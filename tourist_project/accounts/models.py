@@ -44,6 +44,7 @@ class User(AbstractUser):
     phone_no = PhoneNumberField()
     is_user = models.BooleanField(default=False)
     is_tour_operator = models.BooleanField(default=False)
+    website_link = models.URLField(blank=True,null=True)
 
 
     USERNAME_FIELD = 'email'
