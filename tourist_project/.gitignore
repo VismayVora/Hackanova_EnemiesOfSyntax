@@ -26,3 +26,4 @@ venv.bak/
 ../.DS_Store
 tourist_project/db.sqlite3
 ./__pycache__
+.DS_Store
