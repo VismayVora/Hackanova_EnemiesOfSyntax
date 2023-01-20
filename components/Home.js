@@ -151,7 +151,7 @@ const Home = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    color: colors.white,
+    backgroundColor: colors.black,
   },
   menuWrapper: {
     marginHorizontal: 20,
@@ -173,6 +173,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     fontFamily: 'Lato-Bold',
     fontSize: 32,
+    color: colors.white,
   },
   discoverCategoriesWrapper: {
     marginHorizontal: 20,
@@ -183,7 +184,7 @@ const styles = StyleSheet.create({
     marginRight: 30,
     fontFamily: 'Lato-Regular',
     fontSize: 16,
-    color: colors.gray,
+    color: colors.white,
   },
   discoverItemsWrapper: {
     paddingVertical: 20,
@@ -222,7 +223,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     fontFamily: 'Lato-Bold',
     fontSize: 24,
-    color: colors.black,
+    color: colors.white,
   },
   activitiesItemsWrapper: {
     paddingVertical: 20,
@@ -248,7 +249,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     fontFamily: 'Lato-Bold',
     fontSize: 24,
-    color: colors.black,
+    color: colors.white,
   },
   learnMoreItemsWrapper: {
     paddingVertical: 20,

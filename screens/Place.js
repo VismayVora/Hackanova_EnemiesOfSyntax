@@ -82,10 +82,13 @@ const Place = ({ navigation, route }) => {
 
 					{/* Text Icon Button */}
 					<TextIconButton
-						label='Book a flight'
+						label='Explore the Place'
 						icon={icons.aeroplane}
 						customContainerStyle={{ marginTop: SIZES.padding }}
-						onPress={() => console.log('Book a flight')}
+						
+						onPress={() =>
+							navigation.navigate('TabNavigator')
+						  }
 					/>
 				</View>
 			</ImageBackground>

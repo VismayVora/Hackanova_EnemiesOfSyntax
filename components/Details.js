@@ -8,7 +8,11 @@ import {
 } from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import colors from '../assets/colors/colors';
-// import Entypo from 'react-native-vector-icons/Entypo';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Entypo from 'react-native-vector-icons/Entypo';
 
 const height = Dimensions.get('window').height;
 
@@ -20,19 +24,19 @@ const Details = ({route, navigation}) => {
         <TouchableOpacity
           style={styles.backIcon}
           onPress={() => navigation.goBack()}>
-          {/* <Entypo name="chevron-left" size={32} color={colors.white} /> */}
+          <Entypo name="chevron-left" size={32} color={colors.white} />
         </TouchableOpacity>
         <View style={styles.titlesWrapper}>
           <Text style={styles.itemTitle}>{item.title}</Text>
           <View style={styles.locationWrapper}>
-            {/* <Entypo name="location-pin" size={24} color={colors.white} /> */}
+            <Entypo name="location-pin" size={24} color={colors.white} />
             <Text style={styles.locationText}>{item.location}</Text>
           </View>
         </View>
       </ImageBackground>
       <View style={styles.descriptionWrapper}>
         <View style={styles.heartWrapper}>
-          {/* <Entypo name="heart" size={32} color={colors.orange} /> */}
+          <Entypo name="heart" size={32} color={colors.orange} />
         </View>
         <View style={styles.descriptionTextWrapper}>
           <Text style={styles.descriptionTitle}>Description</Text>

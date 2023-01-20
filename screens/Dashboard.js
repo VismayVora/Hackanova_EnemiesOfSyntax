@@ -50,7 +50,7 @@ const Dashboard = ({ navigation }) => {
 						alignItems: 'center',
 						justifyContent: 'center',
 					}}
-					onPress={() => console.log('Side Drawer')}>
+						onPress={() =>  navigation.navigate('Authstack')}>
 					<Image
 						source={icons.side_drawer}
 						resizeMode='contain'
