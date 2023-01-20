@@ -11,7 +11,7 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.decorators import action,api_view
 from rest_framework import generics
 
-# from django.http import JsonResponse
+from django.http import JsonResponse
 # from rest_framework.permissions import AllowAny
 
 #import datetime
@@ -69,3 +69,17 @@ class LoginAPI(GenericAPIView):
 			token = Token.objects.get(user=user)
 			return Response({'token' : token.key,'email' : user.email,'name' : user.name, 'is_user': user.is_user, 'is_tour_operator': user.is_tour_operator},status = status.HTTP_200_OK)
 		return Response('Invalid Credentials',status = status.HTTP_404_NOT_FOUND)
+
+class ProfileAPI(GenericAPIView):
+	permission_classes = [permissions.IsAuthenticated]
+	# serializer_class = TourOperatorRegisterSerializer
+
+	def get(self,request):
+		user_obj = self.request.user
+		if user_obj.is_user == True:
+			serializer = TourOperatorRegisterSerializer
+		else:
+			serializer = UserRegisterSerializer
+		profile_details = serializer(user_obj)
+		return JsonResponse(profile_details.data, status = status.HTTP_200_OK)
+
