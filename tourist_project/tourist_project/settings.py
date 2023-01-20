@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'drf_spectacular',
     'phonenumber_field',
     'accounts',
+    'tourist_app',
 ]
 
 MIDDLEWARE = [
