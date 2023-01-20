@@ -3,8 +3,26 @@ import { View, Image, StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Dashboard } from '../screens';
 import { COLORS, icons } from '../constants';
+import { HomeScreen } from '../components/HomeScreen';
+import { ScheduleScreen } from '../components/ScheduleScreen';
+import { PaymentScreen } from '../components/PaymentScreen';
+import { createStackNavigator } from '@react-navigation/stack';
+import ExploreScreen from '../screens/ExploreScreen';
+// import Maps from '../components/Maps';
 
 const Tab = createBottomTabNavigator();
+
+const Stack = createStackNavigator();
+
+export const Payscreens = () =>  {
+  return (
+    <Stack.Navigator screenOptions={{headerShown:false}}>
+      <Stack.Screen name="Homescreen" component={HomeScreen} />
+      <Stack.Screen name="schedule" component={ScheduleScreen} />
+      <Stack.Screen name="payment" component={PaymentScreen} />
+    </Stack.Navigator>
+  );
+}
 
 const Tabs = () => {
 	return (
@@ -47,7 +65,7 @@ const Tabs = () => {
 			/>
 			<Tab.Screen
 				name='Bookmark'
-				component={Dashboard}
+				component={Payscreens}
 				options={{
 					tabBarIcon: ({ focused }) => (
 						<View style={{ alignItems: 'center', justifyContent: 'center' }}>
@@ -66,7 +84,7 @@ const Tabs = () => {
 			/>
 			<Tab.Screen
 				name='Calendar'
-				component={Dashboard}
+				component={ExploreScreen}
 				options={{
 					tabBarIcon: ({ focused }) => (
 						<View style={{ alignItems: 'center', justifyContent: 'center' }}>
