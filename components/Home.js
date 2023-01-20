@@ -15,7 +15,7 @@ import discoverCategoriesData from '../assets/data/discoverCategoriesData';
 import learnMoreData from '../assets/data/learnMoreData';
 import discoverData from '../assets/data/discoverData';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import profile from '../assets/images/person.png';
+import profile from '../assets/images/profile.jpeg';
 import {FlatList, TouchableOpacity} from 'react-native-gesture-handler';
 
 Feather.loadFont();
