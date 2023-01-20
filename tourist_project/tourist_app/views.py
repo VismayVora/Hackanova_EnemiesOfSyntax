@@ -3,9 +3,9 @@ from django.contrib.auth import authenticate,login
 from django.conf import settings
 
 
-from .models import Location, AuditForm
+from .models import Location, AuditForm, TourPackage
 
-from .serializers import LocationSerializer, AuditFormSerializer
+from .serializers import LocationSerializer, AuditFormSerializer, TourPackageSerializer
 from rest_framework import viewsets,permissions
 from . import custom_permissions
 from rest_framework.decorators import action,api_view, permission_classes
@@ -155,3 +155,38 @@ def nearby_search(request):
 	#def update(self, request, *args, **kwargs):
 		#kwargs['partial'] = True
 		#return super().update(request, *args, **kwargs)
+
+class TourPackageAPI(GenericAPIView):
+	serializer_class = TourPackageSerializer
+	permission_classes = [custom_permissions.IsTourOperatorOrReadOnly]
+	queryset = TourPackage.objects.all()
+
+	def get(self,request):
+		tourpackage = TourPackage.objects.all()
+		tourpackages = TourPackageSerializer(tourpackage, many=True, context={'request': request})
+		return JsonResponse(tourpackages.data, safe=False,status = status.HTTP_200_OK)
+
+
+	def post(self,request):
+		location_name = request.data['location']
+		location_name = location_name.lower()
+		url = f"http://api.positionstack.com/v1/forward?access_key=17bedac0bae0ec184f457a8de5db721a&query={location_name}"
+		payload={}
+		headers = {}
+		response = requests.request("GET", url, headers=headers, data=payload)
+		data = response.json()
+		print(data)
+		lat = data['data'][0]['latitude']
+		print(lat)
+		long = data['data'][0]['longitude']
+		print(long)
+		data = {'name' : location_name,'latitude' : lat,'longitude' : long}
+		serializer = LocationSerializer(data=data)
+		if serializer.is_valid(raise_exception=True):
+			instance, _ = Location.objects.get_or_create(**data)
+			loc_id = instance.id
+			request.data['location'] = loc_id
+		serializer = self.serializer_class(data=request.data)
+		if serializer.is_valid(raise_exception=True):
+			serializer.save(tour_operator=request.user)
+		return Response(serializer.data)

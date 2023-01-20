@@ -39,3 +39,11 @@ class AuditForm(models.Model):
 
 	def __str__(self):
 		return f'{self.location} - {self.score}'
+
+class TourPackage(models.Model):
+    price = models.DecimalField(max_digits=7,decimal_places=2)
+    package_name = models.CharField(max_length=80)
+    location = models.ForeignKey(Location,on_delete=models.CASCADE)
+    image = models.ImageField(null=True,blank=True)
+    description = models.TextField(max_length=400,null=True, blank=True)
+    tour_operator = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='tour_operator', on_delete=models.CASCADE)
