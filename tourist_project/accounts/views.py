@@ -77,9 +77,9 @@ class ProfileAPI(GenericAPIView):
 	def get(self,request):
 		user_obj = self.request.user
 		if user_obj.is_user == True:
-			serializer = TourOperatorRegisterSerializer
-		else:
 			serializer = UserRegisterSerializer
+		else:
+			serializer = TourOperatorRegisterSerializer
 		profile_details = serializer(user_obj)
 		return JsonResponse(profile_details.data, status = status.HTTP_200_OK)
 	
