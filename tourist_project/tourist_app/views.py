@@ -18,6 +18,9 @@ from django.http import JsonResponse
 # from twilio.rest import Client
 import requests
 
+from django.contrib.auth import get_user_model
+User = get_user_model()
+
 # def send_text(number,msg):
 #     client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN )
 #     message = client.messages.create(body= f'{msg}',
@@ -158,11 +161,14 @@ def nearby_search(request):
 
 class TourPackageAPI(GenericAPIView):
 	serializer_class = TourPackageSerializer
-	permission_classes = [custom_permissions.IsTourOperatorOrReadOnly]
+	permission_classes = [permissions.IsAuthenticated]
 	queryset = TourPackage.objects.all()
 
 	def get(self,request):
-		tourpackage = TourPackage.objects.all()
+		if self.request.user.is_tour_operator == True:
+			tourpackage = TourPackage.objects.filter(tour_operator=self.request.user)
+		else:
+			tourpackage = TourPackage.objects.all()
 		tourpackages = TourPackageSerializer(tourpackage, many=True, context={'request': request})
 		return JsonResponse(tourpackages.data, safe=False,status = status.HTTP_200_OK)
 
@@ -185,8 +191,30 @@ class TourPackageAPI(GenericAPIView):
 		if serializer.is_valid(raise_exception=True):
 			instance, _ = Location.objects.get_or_create(**data)
 			loc_id = instance.id
-			request.data['location'] = loc_id
+			request.data['location_id'] = loc_id
+			print(request.data)
 		serializer = self.serializer_class(data=request.data)
 		if serializer.is_valid(raise_exception=True):
 			serializer.save(tour_operator=request.user)
 		return Response(serializer.data)
+	
+	def delete(self,request,id):
+		try:
+			user = User.objects.get(email = request.user.email)
+		except User.DoesNotExist:
+			content = {'detail': 'No such user exists'}
+			return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
+		try:
+			tour_package = TourPackage.objects.get(id = id)
+		except TourPackage.DoesNotExist:
+			content = {'detail': 'No such Tour Package available'}
+			return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
+		try:
+			tour_package = TourPackage.objects.get(id = id, tour_operator = user)
+		except TourPackage.DoesNotExist:
+			content = {'detail': 'No such Tour Package created by this user'}
+			return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
+		tour_package.delete()
+		return JsonResponse({'Response': 'Tour Package successfully deleted!'},status = status.HTTP_200_OK)
+
+	

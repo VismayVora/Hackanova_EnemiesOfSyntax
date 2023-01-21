@@ -10,9 +10,9 @@ class Location(models.Model):
     longitude = models.FloatField()
     safety_score = models.FloatField(default = 0)
     
-    def __str__(self):
-        # return f'{self.latitude,self.longitude}'
-        return f'{self.name}'
+    # def __str__(self):
+    #     # return f'{self.latitude,self.longitude}'
+    #     return f'{self.name}'
     
     def get_score(self):
         reviews = AuditForm.objects.filter(location = self)

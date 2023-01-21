@@ -17,7 +17,20 @@ class AuditFormSerializer(serializers.ModelSerializer):
 
 class TourPackageSerializer(serializers.ModelSerializer):
 	tour_operator = serializers.ReadOnlyField(source='tour_operator.name')
+	location = LocationSerializer(read_only=True)
 
 	class Meta:
 		model = TourPackage
-		fields = '__all__'
+		fields = (
+	  'id',
+      'price',
+      'package_name',
+      'location',
+      'image',
+	  'description',
+	  'tour_operator',
+      'location_id',
+    )
+		extra_kwargs = {
+      'location_id': {'source': 'location', 'write_only': True},
+    }
