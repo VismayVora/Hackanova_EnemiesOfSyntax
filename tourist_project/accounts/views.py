@@ -89,8 +89,9 @@ class ProfileAPI(GenericAPIView):
 			serializer = TourOperatorRegisterSerializer(user_obj, data=request.data, partial=True)
 		else:
 			serializer = UserRegisterSerializer(user_obj, data=request.data, partial=True)
-		if serializer.is_valid():
+		if serializer.is_valid(raise_exception=True):
 			serializer.save()
-			return JsonResponse(data=serializer.data)
-		return JsonResponse(data="wrong parameters")
+			return JsonResponse(serializer.data,safe=False)
+		print(serializer.data)
+		return JsonResponse(data="wrong parameters",safe = False)
 
