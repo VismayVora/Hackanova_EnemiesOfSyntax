@@ -85,12 +85,12 @@ class ProfileAPI(GenericAPIView):
 	
 	def patch(self, request):
 		user_obj = self.request.user
-		if user_obj.is_user == True:
+		if user_obj.is_tour_operator == True:
 			serializer = TourOperatorRegisterSerializer(user_obj, data=request.data, partial=True)
 		else:
 			serializer = UserRegisterSerializer(user_obj, data=request.data, partial=True)
 		if serializer.is_valid():
 			serializer.save()
-			return JsonResponse(code=200, data=serializer.data)
-		return JsonResponse(code=400, data="wrong parameters")
+			return JsonResponse(data=serializer.data)
+		return JsonResponse(data="wrong parameters")
 
