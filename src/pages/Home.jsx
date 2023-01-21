@@ -6,6 +6,7 @@ import { HiOutlineLocationMarker } from "react-icons/hi";
 import { TbClipboardList } from "react-icons/tb";
 import { Navbar } from "../components/Navbar";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const Card = ({ data }) => {
   return (
@@ -27,9 +28,11 @@ const Card = ({ data }) => {
           <h1 className="text-gray-600 text-2xl font-bold">₹ {data.price}</h1>
         </div>
         <h1 className="text-sm text-gray-600 py-4">{data.description}</h1>
-        <button className="flex items-center gap-2 text-white font-semibold uppercase rounded-full px-6 py-2 bg-gradient-to-r from-cyan-400 to-blue-800 hover:to-cyan-600">
-          Details <TbClipboardList />
-        </button>
+        <Link to={'/package/'+data.id}>
+          <button className="flex items-center gap-2 text-white font-semibold uppercase rounded-full px-6 py-2 bg-gradient-to-r from-cyan-400 to-blue-800 hover:to-cyan-600">
+            Details <TbClipboardList />
+          </button>
+        </Link>
       </div>
     </div>
   );

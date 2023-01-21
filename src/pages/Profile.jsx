@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Navbar } from "../components/Navbar";
-import landscape from "../assets/images/landscape.jpg";
 import { HiOutlineLocationMarker } from "react-icons/hi";
-import { TbClipboardList } from "react-icons/tb";
 import { useNavigate } from "react-router-dom";
 import Modal from "react-modal";
 import axios from "axios";
@@ -105,7 +103,45 @@ const Profile = () => {
     getProfile();
     getPackages();
   }, []);
-
+  function loadScript(src) {
+    return new Promise((resolve) => {
+      const script = document.createElement("script");
+      script.src = src;
+      script.onload = () => {
+        resolve(true);
+      };
+      script.onerror = () => {
+        resolve(false);
+      };
+      document.body.appendChild(script);
+    });
+  }
+  const paymentHandler = async () => {
+    const res = await loadScript(
+      "https://checkout.razorpay.com/v1/checkout.js"
+    );
+    const options = {
+      key: 'rzp_test_P5uGKApOVIZYNS',
+      amount: parseInt(packageData.price) * 10,
+      name: "Payments",
+      description: "Donate yourself some time",
+      handler: (response) => {
+        addPackageHandler()
+      },
+      prefill: {
+        name: "Shashank Shekhar",
+        email: "example@email.com",
+      },
+      notes: {
+        address: "Patna,India",
+      },
+      theme: {
+        color: "#3b82f6",
+      },
+    };
+    const rzp1 = new window.Razorpay(options);
+    rzp1.open();
+  };
   const logout = () => {
     localStorage.removeItem("user");
     navigate("/");
@@ -171,7 +207,6 @@ const Profile = () => {
 
       axios(config)
         .then(function (response) {
-          getPackages();
           setAddPackage(false);
           toast.success("Package Added Successfully", {
             position: "top-right",
@@ -183,6 +218,7 @@ const Profile = () => {
             progress: undefined,
             theme: "light",
           });
+          getPackages();
         })
         .catch(function (error) {
           console.log(error);
@@ -202,11 +238,11 @@ const Profile = () => {
     axios(config)
       .then(function (response) {
         console.log(JSON.stringify(response.data));
-        setEdit(false)
+        setEdit(false);
       })
       .catch(function (error) {
         console.log(error);
-        setEdit(false)
+        setEdit(false);
       });
   };
   return (
@@ -221,7 +257,11 @@ const Profile = () => {
             <h1 className="text-gray-400">Email: {profile?.email}</h1>
             <h1 className="text-gray-400">Phone: {profile?.phone_no}</h1>
             {profile?.website_link && (
-              <a className="text-blue-400" href={profile?.website_link} target="_blank">
+              <a
+                className="text-blue-400"
+                href={profile?.website_link}
+                target="_blank"
+              >
                 View Website
               </a>
             )}
@@ -269,7 +309,9 @@ const Profile = () => {
             <h1 className="text-3xl text-gray-600 font-semibold">
               Add Package
             </h1>
-            <h1 className="text-xl">X</h1>
+            <div onClick={() => setAddPackage(false)} className="cursor-pointer">
+              <h1 className="text-xl">x</h1>
+            </div>
           </div>
           <div className="grid grid-cols-2 gap-6 mt-6">
             <div className="">
@@ -338,7 +380,7 @@ const Profile = () => {
               />
             </div>
             <button
-              onClick={() => addPackageHandler()}
+              onClick={() => paymentHandler()}
               className="col-span-2 focus:outline-none px-4 py-3 bg-gradient-to-r from-cyan-400 to-blue-800 hover:to-cyan-600 text-white rounded-lg text-sm font-semibold"
             >
               Add
@@ -394,7 +436,7 @@ const Profile = () => {
             </div>
             <div className="">
               <h1 className="text-gray-800 font-semibold mb-3">
-                Enter Phone Number
+                Enter Website Link
               </h1>
               <input
                 type="text"
@@ -406,7 +448,10 @@ const Profile = () => {
                 }
               />
             </div>
-            <button onClick={() => editHandler()} className="col-span-2 focus:outline-none px-4 py-3 bg-gradient-to-r from-cyan-400 to-blue-800 hover:to-cyan-600 text-white rounded-lg text-sm font-semibold">
+            <button
+              onClick={() => editHandler()}
+              className="col-span-2 focus:outline-none px-4 py-3 bg-gradient-to-r from-cyan-400 to-blue-800 hover:to-cyan-600 text-white rounded-lg text-sm font-semibold"
+            >
               Submit
             </button>
           </div>

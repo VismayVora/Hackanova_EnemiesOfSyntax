@@ -6,6 +6,7 @@ import Profile from "./pages/Profile";
 import Search from "./pages/Search";
 import alanBtn from "@alan-ai/alan-sdk-web";
 import { useEffect } from "react";
+import Package from "./pages/Package";
 
 function App() {
   useEffect(() => {
@@ -26,6 +27,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/search" element={<Search />} />
+        <Route path="/package/:id" element={<Package />} />
       </Routes>
     </>
   );

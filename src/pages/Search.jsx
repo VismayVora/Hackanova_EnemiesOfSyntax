@@ -1,8 +1,52 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Navbar } from '../components/Navbar'
 import backgroundVideo from "../assets/videos/background.mp4";
+import axios from 'axios';
 
 const Search = () => {
+  const [params, setParams] = useState({
+    location: "",
+    keyword: ""
+  })
+  const search = () => {
+    var config = {
+      method: "get",
+      credentials: "include",
+      url: "http://api.positionstack.com/v1/forward?access_key=67a8b5378b838341e77acee4a9edf31f&query=1600 Pennsylvania Ave NW, Washington DC",
+      headers: {},
+    };
+    axios(config)
+      .then(function (response) {
+        console.log(JSON.stringify(response.data));
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    // var data = new FormData();
+    // data.append("keywords", "restaurant");
+    // data.append("latitude", "19.0760");
+    // data.append("longitude", "72.8777");
+
+    // var config = {
+    //   method: "post",
+    //   url: "http://vismayvora.pythonanywhere.com/tourist_app/nearbysearch",
+    //   headers: {
+    //     Authorization: "Token e9390b5dfd2db325de85df5bb75a6a45efd30386",
+    //     Cookie:
+    //       "csrftoken=oKGfFy4EQ3I7gMU8oKN92CyOwK3HflSN; sessionid=q11vtre1r0uz9e1ecamuo1m5p95jetyh",
+    //     ...data.getHeaders(),
+    //   },
+    //   data: data,
+    // };
+
+    // axios(config)
+    //   .then(function (response) {
+    //     console.log(JSON.stringify(response.data));
+    //   })
+    //   .catch(function (error) {
+    //     console.log(error);
+    //   });
+  }
   return (
     <div className="w-full h-full relative">
       <Navbar />
@@ -27,6 +71,8 @@ const Search = () => {
                 type="text"
                 className="w-full focus:outline-none px-4 py-3 bg-gray-100 rounded-full text-sm text-gray-500 font-semibold"
                 placeholder="Mumbai"
+                value={params.location}
+                onChange={(e) => setParams({ ...params, location: e.target.value })}
               />
             </div>
             <div className="">
@@ -37,9 +83,11 @@ const Search = () => {
                 type="text"
                 className="w-full focus:outline-none px-4 py-3 bg-gray-100 rounded-full text-sm text-gray-500 font-semibold"
                 placeholder="Beach"
+                value={params.keyword}
+                onChange={(e) => setParams({ ...params, keyword: e.target.value })}
               />
             </div>
-            <button className="absolute -bottom-5 left-[46%] text-white uppercase rounded-full px-6 py-2 bg-gradient-to-r from-cyan-400 to-blue-800 hover:to-cyan-600">
+            <button onClick={() => search()} className="absolute -bottom-5 left-[46%] text-white uppercase rounded-full px-6 py-2 bg-gradient-to-r from-cyan-400 to-blue-800 hover:to-cyan-600">
               Search
             </button>
           </div>
