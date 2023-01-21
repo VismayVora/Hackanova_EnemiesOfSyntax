@@ -87,7 +87,7 @@ const Place = ({ navigation, route }) => {
 						customContainerStyle={{ marginTop: SIZES.padding }}
 						
 						onPress={() =>
-							navigation.navigate('TabNavigator')
+							navigation.navigate('Home')
 						  }
 					/>
 				</View>

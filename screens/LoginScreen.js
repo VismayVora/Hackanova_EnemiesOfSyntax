@@ -64,52 +64,8 @@ const LoginScreen = ({navigation}) => {
           fieldButtonFunction={() => {}}
         />
         
-        <CustomButton label={"Login"} onPress={() => {}} />
+        <CustomButton label={"Login"} onPress={() =>  navigation.navigate('Dashboard')} />
 
-        <Text style={{textAlign: 'center', color: '#666', marginBottom: 30}}>
-          Or, login with ...
-        </Text>
-
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            marginBottom: 30,
-          }}>
-          <TouchableOpacity
-            onPress={() => {}}
-            style={{
-              borderColor: '#ddd',
-              borderWidth: 2,
-              borderRadius: 10,
-              paddingHorizontal: 30,
-              paddingVertical: 10,
-            }}>
-            {/* <GoogleSVG height={24} width={24} /> */}
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {}}
-            style={{
-              borderColor: '#ddd',
-              borderWidth: 2,
-              borderRadius: 10,
-              paddingHorizontal: 30,
-              paddingVertical: 10,
-            }}>
-            {/* <FacebookSVG height={24} width={24} /> */}
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {}}
-            style={{
-              borderColor: '#ddd',
-              borderWidth: 2,
-              borderRadius: 10,
-              paddingHorizontal: 30,
-              paddingVertical: 10,
-            }}>
-            {/* <TwitterSVG height={24} width={24} /> */}
-          </TouchableOpacity>
-        </View>
 
         <View
           style={{

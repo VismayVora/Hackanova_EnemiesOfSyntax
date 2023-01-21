@@ -39,7 +39,10 @@ const RegisterScreen = ({navigation}) => {
             fontSize: 28,
             fontWeight: '500',
             color: '#333',
-            marginBottom: 30,
+            margin: 100,
+            alignContent: 'center',
+            textAlign: 'center',
+            alignItems: 'center',
           }}>
           Register
         </Text>

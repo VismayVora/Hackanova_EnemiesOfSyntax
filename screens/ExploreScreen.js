@@ -34,24 +34,20 @@ const ExploreScreen = () => {
     markers,
     categories: [
       { 
-        name: 'Fastfood Center', 
+        name: 'Tourist Places', 
         icon: <MaterialCommunityIcons style={styles.chipsIcon} name="food-fork-drink" size={18} />,
       },
       {
-        name: 'Restaurant',
+        name: 'Heritage Sites',
         icon: <Ionicons name="ios-restaurant" style={styles.chipsIcon} size={18} />,
       },
       {
-        name: 'Dineouts',
+        name: 'Religious Places',
         icon: <Ionicons name="md-restaurant" style={styles.chipsIcon} size={18} />,
       },
       {
-        name: 'Snacks Corner',
+        name: 'Pilgrimage Places',
         icon: <MaterialCommunityIcons name="food" style={styles.chipsIcon} size={18} />,
-      },
-      {
-        name: 'Hotel',
-        icon: <Fontisto name="hotel" style={styles.chipsIcon} size={15} />,
       },
   ],
     region: {

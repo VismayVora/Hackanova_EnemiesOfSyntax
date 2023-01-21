@@ -35,7 +35,7 @@ export const data = [
     image: Images[1].image,
     rating: 5,
     reviews: 102,
-    categories: ['Restaurant', 'Fastfood Center', 'Snacks Corner'],
+    categories: ['Religious Places', 'Historical Places', 'Pilgrimage '],
   },
   {
     id: '3',

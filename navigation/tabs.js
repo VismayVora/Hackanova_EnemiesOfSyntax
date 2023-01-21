@@ -5,28 +5,41 @@ import { Dashboard } from '../screens';
 import { COLORS, icons } from '../constants';
 import { HomeScreen } from '../components/HomeScreen';
 import { ScheduleScreen } from '../components/ScheduleScreen';
-import { PaymentScreen } from '../components/PaymentScreen';
 import { createStackNavigator } from '@react-navigation/stack';
 import ExploreScreen from '../screens/ExploreScreen';
-// import Maps from '../components/Maps';
+import Profile from '../components/Profile';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { ProductsList } from '../screens/ProductsList';
+import { ProductDetails } from '../screens/ProductDetails';
+import { Cart } from '../screens/Cart';
+import { CartProvider } from "../CartContext.js";
+import { CartIcon } from "../components/CartIcon.js";
+import { NavigationContainer } from '@react-navigation/native';
 
 const Tab = createBottomTabNavigator();
 
 const Stack = createStackNavigator();
 
-export const Payscreens = () =>  {
-  return (
-    <Stack.Navigator screenOptions={{headerShown:false}}>
-      <Stack.Screen name="Homescreen" component={HomeScreen} />
-      <Stack.Screen name="schedule" component={ScheduleScreen} />
-      <Stack.Screen name="payment" component={PaymentScreen} />
-    </Stack.Navigator>
-  );
-}
+const BlogStack = createNativeStackNavigator();
+
+const Blog = () => {
+	return (
+		<CartProvider>
+			<NavigationContainer independent={true}>
+			<BlogStack.Navigator screenOptions={{ headerShown: false }} independent={true} >
+				<BlogStack.Screen name="Products" component={ProductsList} options={({ navigation }) => ({ title: 'Products', headerRight: () => <CartIcon navigation={navigation} /> })} />
+				<BlogStack.Screen name="ProductDetails" component={ProductDetails} options={({ navigation }) => ({ title: 'Products', headerRight: () => <CartIcon navigation={navigation} /> })} />
+				<BlogStack.Screen name="Cart" component={Cart} options={({ navigation }) => ({ title: 'Products', headerRight: () => <CartIcon navigation={navigation} /> })} />
+			</BlogStack.Navigator>
+			</NavigationContainer>
+		</CartProvider>
+	);
+};
+
 
 const Tabs = () => {
 	return (
-		<Tab.Navigator
+		<Tab.Navigator independent={true}
 			tabBarOptions={{
 				showLabel: false,
 				style: {
@@ -64,8 +77,8 @@ const Tabs = () => {
 				}}
 			/>
 			<Tab.Screen
-				name='Bookmark'
-				component={Payscreens}
+				name='VR'
+				component={Profile}
 				options={{
 					tabBarIcon: ({ focused }) => (
 						<View style={{ alignItems: 'center', justifyContent: 'center' }}>
@@ -83,7 +96,7 @@ const Tabs = () => {
 				}}
 			/>
 			<Tab.Screen
-				name='Calendar'
+				name='Explore'
 				component={ExploreScreen}
 				options={{
 					tabBarIcon: ({ focused }) => (
@@ -102,8 +115,8 @@ const Tabs = () => {
 				}}
 			/>
 			<Tab.Screen
-				name='Plane'
-				component={Dashboard}
+				name='Packages'
+				component={Blog}
 				options={{
 					tabBarIcon: ({ focused }) => (
 						<View style={{ alignItems: 'center', justifyContent: 'center' }}>

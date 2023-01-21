@@ -1,4 +1,4 @@
-const profile_pic = require("../assets/images/profile_pic.jpg");
+const profile_pic = require("../assets/images/profile.jpeg");
 
 export default {
     profile_pic,

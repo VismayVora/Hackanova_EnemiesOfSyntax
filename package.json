@@ -17,6 +17,7 @@
     "@react-navigation/bottom-tabs": "^5.11.15",
     "@react-navigation/drawer": "^6.5.7",
     "@react-navigation/native": "^5.9.8",
+    "@react-navigation/native-stack": "^6.9.8",
     "@react-navigation/stack": "^5.14.9",
     "@viro-community/react-viro": "^2.23.0",
     "haversine": "^1.1.1",
