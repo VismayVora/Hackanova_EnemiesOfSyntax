@@ -1,42 +1,65 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import backgroundVideo from "../assets/videos/background.mp4";
-import landscape from "../assets/images/landscape.jpg";
 import { HiOutlineLocationMarker } from "react-icons/hi";
 import { TbClipboardList } from "react-icons/tb";
 import { Navbar } from "../components/Navbar";
+import axios from "axios";
 
-
-
-const Card = () => {
+const Card = ({ data }) => {
   return (
-    <div className="w-full rounded-xl shadow-lg border">
-      <img className="rounded-t-xl" src={landscape} alt="" />
+    <div key={data.id} className="w-full rounded-xl shadow-lg border">
+      <img
+        className="rounded-t-xl h-[35vh] w-full"
+        src={data.image}
+        alt=""
+      />
       <div className="px-4 py-6">
-        <h1 className="text-gray-600 text-xl font-bold mb-2">Bora Bora</h1>
+        <h1 className="text-gray-600 text-xl font-bold mb-2">
+          {data.package_name}
+        </h1>
         <h1 className="text-gray-400 text-sm mb-4 flex items-center gap-2">
-          <HiOutlineLocationMarker className="text-lg" /> New Zealand
+          <HiOutlineLocationMarker className="text-lg" /> {data.location.name}
         </h1>
         <div className="border-t border-b p-3 flex justify-between items-center">
           <h1 className="text-gray-400">Price:</h1>
-          <h1 className="text-gray-600 text-2xl font-bold">$5000</h1>
+          <h1 className="text-gray-600 text-2xl font-bold">₹ {data.price}</h1>
         </div>
-        <h1 className="text-sm text-gray-600 py-4">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere qui
-          adipisci, optio enim natus ab officia eius! Ex, omnis atque in alias
-          iusto dignissimos, repudiandae, corrupti ipsam illo illum dolorum.
-        </h1>
+        <h1 className="text-sm text-gray-600 py-4">{data.description}</h1>
         <button className="flex items-center gap-2 text-white font-semibold uppercase rounded-full px-6 py-2 bg-gradient-to-r from-cyan-400 to-blue-800 hover:to-cyan-600">
           Details <TbClipboardList />
         </button>
       </div>
     </div>
   );
-}
+};
 
 const Home = () => {
   const [startDate, setStartDate] = useState(new Date());
+  const [packages, setPackages] = useState([])
+  const user = JSON.parse(localStorage.getItem("user"));
+  useEffect(() => {
+    if(user) getPackages();
+  }, []);
+  const getPackages = () => {
+    var config = {
+      method: "get",
+      url: "http://vismayvora.pythonanywhere.com/tourist_app/tourpackage",
+      headers: {
+        Authorization: "Token " + user.token,
+      },
+    };
+
+    axios(config)
+      .then(function (response) {
+        console.log(response.data);
+        setPackages(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
   return (
     <div className="w-full h-full relative">
       <video autoPlay loop muted className="absolute -z-10 w-full h-auto">
@@ -55,7 +78,7 @@ const Home = () => {
           <div className="relative grid grid-cols-3 bg-white w-full rounded-xl p-8 gap-8">
             <div className="">
               <h1 className="text-gray-400 font-semibold mb-3">
-                Search you destination:
+                Search your destination:
               </h1>
               <input
                 type="text"
@@ -64,7 +87,7 @@ const Home = () => {
             </div>
             <div className="">
               <h1 className="text-gray-400 font-semibold mb-3">
-                Search you date:
+                Search your date:
               </h1>
               <DatePicker
                 className="w-full focus:outline-none px-4 py-3 bg-gray-100 rounded-full text-sm text-gray-500 font-semibold"
@@ -74,7 +97,7 @@ const Home = () => {
             </div>
             <div className="">
               <div className="flex justify-between text-gray-400 font-semibold mb-3">
-                <h1>Max prize:</h1>
+                <h1>Max price:</h1>
                 <h1 className="text-xl text-gray-500">$5000</h1>
               </div>
               <div className="flex items-center px-4 py-3 bg-gray-100 rounded-full">
@@ -98,15 +121,7 @@ const Home = () => {
           <span className="underline decoration-cyan-500">destinations</span>
         </h1>
         <div className="grid grid-cols-3 gap-8">
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
+          {packages.length > 0 && packages.map((item) => <Card data={item} />)}
         </div>
       </div>
     </div>

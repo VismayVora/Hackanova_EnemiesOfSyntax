@@ -5,6 +5,7 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
+import logo from "../assets/images/logo.png";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -99,7 +100,8 @@ const Register = () => {
 
     axios(config)
       .then(function (response) {
-        localStorage.setItem("user", JSON.stringify(response.data));
+        let x = {...response.data, name: user.name, isVendor: role==="Vendor" ? true : false};
+        localStorage.setItem("user", JSON.stringify(x));
         navigate("/");
       })
       .catch(function (error) {
@@ -125,7 +127,8 @@ const Register = () => {
           <source src={register} type="video/mp4" />
         </video>
         <div className="w-1/2 h-screen bg-gray-100/80 p-24 ml-auto">
-          <Link to="/">
+          <Link className="flex items-center gap-2" to="/">
+            <img className="w-8" src={logo} alt="" />
             <h1 className="text-2xl font-bold underline decoration-blue-500">
               Travel.
             </h1>

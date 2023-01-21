@@ -6,6 +6,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import logo from "../assets/images/logo.png";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -27,8 +28,8 @@ const Login = () => {
 
     axios(config)
       .then(function (response) {
-        console.log(JSON.stringify(response.data));
-        navigate('/')
+        localStorage.setItem("user", JSON.stringify(response.data));
+        (response.data.is_user) ? navigate('/') : navigate('/profile')
       })
       .catch(function (error) {
         toast.error("Invalid Credentials", {
@@ -41,6 +42,10 @@ const Login = () => {
           progress: undefined,
           theme: "light",
         });
+        setUser({
+          email: '',
+          password: ''
+        })
       });
   }
   return (
@@ -50,7 +55,8 @@ const Login = () => {
       </video>
       <ToastContainer />
       <div className="w-1/2 h-screen bg-gray-100/80 p-24">
-        <Link to="/">
+        <Link className='flex items-center gap-2' to="/">
+          <img className="w-8" src={logo} alt="" />
           <h1 className="text-2xl font-bold underline decoration-blue-500">
             Travel.
           </h1>
