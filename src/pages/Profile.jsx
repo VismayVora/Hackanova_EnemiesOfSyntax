@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { Navbar } from "../components/Navbar";
 import { HiOutlineLocationMarker } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
@@ -99,10 +99,49 @@ const Profile = () => {
   const [packages, setPackages] = useState([]);
   const user = JSON.parse(localStorage.getItem("user"));
   const [profile, setProfile] = useState(null);
+
+  const getProfile = useCallback(() => {
+    var config = {
+      method: "get",
+      url: "http://vismayvora.pythonanywhere.com/account/profile",
+      headers: {
+        Authorization: "Token " + user?.token,
+      },
+    };
+    axios(config)
+      .then(function (response) {
+        console.log(response.data);
+        setProfile(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, [user]);
+
+  const getPackages = useCallback(() => {
+    var config = {
+      method: "get",
+      url: "http://vismayvora.pythonanywhere.com/tourist_app/tourpackage",
+      headers: {
+        Authorization: "Token " + user?.token,
+      },
+    };
+
+    axios(config)
+      .then(function (response) {
+        console.log(response.data);
+        setPackages(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, [user]);
+
   useEffect(() => {
     getProfile();
     getPackages();
-  }, []);
+  }, [getProfile, getPackages]);
+
   function loadScript(src) {
     return new Promise((resolve) => {
       const script = document.createElement("script");
@@ -145,41 +184,6 @@ const Profile = () => {
   const logout = () => {
     localStorage.removeItem("user");
     navigate("/");
-  };
-  const getProfile = () => {
-    var config = {
-      method: "get",
-      url: "http://vismayvora.pythonanywhere.com/account/profile",
-      headers: {
-        Authorization: "Token " + user.token,
-      },
-    };
-    axios(config)
-      .then(function (response) {
-        console.log(response.data);
-        setProfile(response.data);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  };
-  const getPackages = () => {
-    var config = {
-      method: "get",
-      url: "http://vismayvora.pythonanywhere.com/tourist_app/tourpackage",
-      headers: {
-        Authorization: "Token " + user.token,
-      },
-    };
-
-    axios(config)
-      .then(function (response) {
-        console.log(response.data);
-        setPackages(response.data);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
   };
   const addPackageHandler = () => {
     console.log(packageData);

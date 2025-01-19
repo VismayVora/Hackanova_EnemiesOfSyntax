@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import backgroundVideo from "../assets/videos/background.mp4";
@@ -28,7 +28,7 @@ const Card = ({ data }) => {
           <h1 className="text-gray-600 text-2xl font-bold">₹ {data.price}</h1>
         </div>
         <h1 className="text-sm text-gray-600 py-4">{data.description}</h1>
-        <Link to={'/package/'+data.id}>
+        <Link to={'/package/' + data.id}>
           <button className="flex items-center gap-2 text-white font-semibold uppercase rounded-full px-6 py-2 bg-gradient-to-r from-cyan-400 to-blue-800 hover:to-cyan-600">
             Details <TbClipboardList />
           </button>
@@ -42,15 +42,13 @@ const Home = () => {
   const [startDate, setStartDate] = useState(new Date());
   const [packages, setPackages] = useState([])
   const user = JSON.parse(localStorage.getItem("user"));
-  useEffect(() => {
-    if(user) getPackages();
-  }, []);
-  const getPackages = () => {
+
+  const getPackages = useCallback(() => {
     var config = {
       method: "get",
       url: "http://vismayvora.pythonanywhere.com/tourist_app/tourpackage",
       headers: {
-        Authorization: "Token " + user.token,
+        Authorization: "Token " + user?.token,
       },
     };
 
@@ -62,7 +60,12 @@ const Home = () => {
       .catch(function (error) {
         console.log(error);
       });
-  };
+  }, [user]);
+
+  useEffect(() => {
+    if (user) getPackages();
+  }, [user, getPackages]);
+
   return (
     <div className="w-full h-full relative">
       <video autoPlay loop muted className="absolute -z-10 w-full h-auto">
